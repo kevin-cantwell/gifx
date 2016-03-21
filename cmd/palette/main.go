@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"image/color"
 	"image/gif"
 	_ "image/jpeg"
 	_ "image/png"
@@ -36,15 +37,29 @@ func main() {
 		}
 		f.Close()
 
+		var origPalette []Color
+		if palette, ok := gifImg.Config.ColorModel.(color.Palette); ok {
+			for _, clr := range palette {
+				r, g, b, a := clr.RGBA()
+				r, g, b, a = r/0x101, g/0x101, b/0x101, a/0x101 // Convert 16bit to 8bit
+				origPalette = append(origPalette, Color{
+					RGBA: []uint32{r, g, b, a},
+				})
+			}
+		}
+
 		for _, frame := range gifImg.Image {
 			f, err := ioutil.TempFile("", "palette")
 			if err != nil {
 				exit(err)
 			}
 			imageData := ImageData{
-				Orig:  gifImg,
-				Image: masterImageName,
-				Frame: f.Name(),
+				Orig:        gifImg,
+				OrigPalette: origPalette,
+				Image:       masterImageName,
+				Frame:       f.Name(),
+				X:           frame.Bounds().Min.X,
+				Y:           frame.Bounds().Min.Y,
 			}
 			if err := gif.Encode(f, frame, nil); err != nil {
 				exit(err)
@@ -80,10 +95,13 @@ func main() {
 }
 
 type ImageData struct {
-	Image   string
-	Frame   string
-	Palette []Color
-	Orig    *gif.GIF
+	Image       string
+	Frame       string
+	X           int
+	Y           int
+	Palette     []Color
+	Orig        *gif.GIF
+	OrigPalette []Color
 }
 
 type Color struct {

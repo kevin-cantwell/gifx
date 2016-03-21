@@ -1,3 +1,5 @@
-# Palette
+# Gifx (OSX only)
 
-A tool that breaks down the color palette of a gif.
+Extracts the frames of a gif and opens a local webpage describing each component.
+
+

@@ -12,7 +12,7 @@ import (
 	"os/exec"
 
 	"github.com/codegangsta/cli"
-	"github.com/kevin-cantwell/palette"
+	"github.com/kevin-cantwell/gifx"
 )
 
 func main() {
@@ -81,7 +81,7 @@ func main() {
 			exit(err)
 		}
 
-		t, err := template.New("palette").Parse(palette.PaletteHTML)
+		t, err := template.New("palette").Parse(gifx.PaletteHTML)
 		if err != nil {
 			exit(err)
 		}

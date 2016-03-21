@@ -1,4 +1,4 @@
-package palette
+package gifx
 
 var PaletteHTML = `
 <html>

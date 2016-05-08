@@ -17,7 +17,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "palette"
+	app.Name = "gifx"
 	app.Usage = "A command-line tool for exposing the color palette of an image."
 	app.Action = func(c *cli.Context) {
 		var images []ImageData

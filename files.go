@@ -72,11 +72,14 @@ var PaletteHTML = `
             <li>Frame Index: {{$i}}</li>
             <li>Delay: {{index $image.Orig.Delay $i}}</li>
             {{ $disposal := index $image.Orig.Disposal $i}}
+            {{if eq $disposal 0}}
+            <li>Disposal Method: Unspecified</li>
+            {{end}}
             {{if eq $disposal 1}}
             <li>Disposal Method: None</li>
             {{end}}
             {{if eq $disposal 2}}
-            <li>Disposal Method: None</li>
+            <li>Disposal Method: Background</li>
             {{end}}
             {{if eq $disposal 3}}
             <li>Disposal Method: Previous</li>
